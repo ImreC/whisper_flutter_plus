@@ -23,9 +23,8 @@ export 'whisper_audio_convert.dart';
 typedef WReqNative = Pointer<Utf8> Function(Pointer<Utf8> body);
 
 /// Logger use for whole package
-final DartLogger logger = DartLogger(
-  configuration: const DartLoggerConfiguration(
-    format: LogFormat.inline,
+final DartLogger logger = const DartLogger(
+  configuration: DartLoggerConfiguration(
     name: 'whisper_flutter_plus',
   ),
 );
