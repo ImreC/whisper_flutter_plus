@@ -102,19 +102,23 @@ class Whisper {
     );
   }
 
+  /// Convert audio file to wav
+  Future<File?> convertAudioToWav({
+    required String audioPath,
+  }) {
+    final WhisperAudioconvert converter = WhisperAudioconvert(
+      audioInput: File(audioPath),
+      audioOutput: File('$audioPath.wav'),
+    );
+    return converter.convert();
+  }
+
   /// Transcribe audio file to text
   Future<WhisperTranscribeResponse> transcribe({
     required TranscribeRequest transcribeRequest,
   }) async {
-    final WhisperAudioconvert converter = WhisperAudioconvert(
-      audioInput: File(transcribeRequest.audio),
-      audioOutput: File('${transcribeRequest.audio}.wav'),
-    );
-
-    final File? convertedFile = await converter.convert();
-
     final TranscribeRequest req = transcribeRequest.copyWith(
-      audio: convertedFile?.path ?? transcribeRequest.audio,
+      audio: transcribeRequest.audio,
     );
     final String modelDir = await _getModelDir();
     final Map<String, dynamic> result = await _request(
