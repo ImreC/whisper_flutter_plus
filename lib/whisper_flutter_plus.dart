@@ -117,16 +117,21 @@ class Whisper {
   Future<WhisperTranscribeResponse> transcribe({
     required TranscribeRequest transcribeRequest,
   }) async {
+    print('Opening ${transcribeRequest.audio}');
     final TranscribeRequest req = transcribeRequest.copyWith(
       audio: transcribeRequest.audio,
     );
+    print('Getting model dir');
     final String modelDir = await _getModelDir();
+    print('Model dir: $modelDir');
+    print('Transcribing');
     final Map<String, dynamic> result = await _request(
       whisperRequest: TranscribeRequestDto.fromTranscribeRequest(
         req,
         model.getPath(modelDir),
       ),
     );
+    print('Result: $result');
     if (result['text'] == null) {
       throw Exception(result['message']);
     }
